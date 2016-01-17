@@ -5,7 +5,8 @@
 </head>
 <body>
 <div id="content"></div>
-<script src="https://fb.me/react-with-addons-0.13.3.js"></script>
+<script src="https://fb.me/react-0.14.6.js"></script>
+<script src="https://fb.me/react-dom-0.14.6.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/jsx">
@@ -15,7 +16,8 @@
 
 		getInitialState: function() {
 			return {
-				stuff: {}
+				stuff: {},
+				gotData: false,
 			}
 		},
 
@@ -29,18 +31,68 @@
 				url: '/api/trip',
 				success: function(result) {
 					this.setState({
-						stuff: result
+						stuff: result,
+						gotData: true
 					});
 				}.bind(this)
 			});
 		},
 
-	    render: function(){
-	        return(<div>{this.state.stuff}</div>);
-	    }
-	});
+	   render: function(){
+	   	var time;
+	   	if (this.state.gotData === true) {
+	   		time = this.state.stuff.trip.time
+	   	}
 
-	React.render(<App stuff={STUFF} />, document.getElementById('content'));
+		return (
+			<div>
+				<p>{time}</p>
+				Permissionly
+				<Navbar />
+				<MainContent />
+			</div>
+		);
+	}
+});
+
+
+var Navbar = React.createClass({
+	render: function(){
+		return (<p style={{textAlign: 'right', fontWeight: 'bold'}}>Home - Features - About - FAQ </p>);
+	}
+});
+
+var MainContent = React.createClass({
+	render: function(){
+		return(
+			<div>
+				Main Content
+				<img src="http://www.npr.org/assets/img/2015/01/12/kimani-maruge-2015-hires_wide-bff66d33bef201f36ce3202e67ca7a03ff28207d.jpeg"
+					style={{width:'100%'}}/>
+				<Menu />
+			</div>
+		);
+	}
+});
+
+var Menu = React.createClass({
+	render: function(){
+		return (
+			<div style={{position: 'absolute', top: '200px', left: '100px'}}>
+				<button>Sign up</button>
+				<button>Trips</button>
+			</div>
+		);
+	}
+});
+
+
+ReactDOM.render(<App />, document.getElementById('content'));
+
+
+
+
+	ReactDOM.render(<App stuff={STUFF} />, document.getElementById('content'));
 
 </script>
 </html>
