@@ -1,0 +1,14 @@
+{
+  "name": "api_exercise",
+  "version": "1.0.0",
+  "description": "building a simple api as a part of a tutorial",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Per Harald Borgen",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^12.1.0"
+  }
+}
