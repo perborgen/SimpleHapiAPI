@@ -4,95 +4,85 @@
 <title>Simple Hapi App</title>
 </head>
 <body>
-<div id="content"></div>
+<div id="content">Hello world</div>
 <script src="https://fb.me/react-0.14.6.js"></script>
 <script src="https://fb.me/react-dom-0.14.6.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/jsx">
-	var STUFF = ["buy food", "make food", "eat food"];
 
 	var App = React.createClass({
 
-		getInitialState: function() {
+		getInitialState: function(){
 			return {
-				stuff: {},
-				gotData: false,
+				trip: {},
+				gotData: false
 			}
 		},
 
-		componentDidMount: function() {
-			this.getTrip();
-		},
-
-		getTrip: function() {
+		componentDidMount: function(){
 			$.ajax({
 				method: 'GET',
 				url: '/api/trip',
-				success: function(result) {
+				success: function(result){
 					this.setState({
-						stuff: result,
+						trip: result.trip,
 						gotData: true
 					});
 				}.bind(this)
 			});
 		},
 
-	   render: function(){
-	   	var time;
-	   	if (this.state.gotData === true) {
-	   		time = this.state.stuff.trip.time
-	   	}
+		render: function(){
+			console.log('this.state: ', this.state);
+			return(
+				<div>
+					<Navbar />
+					<MainContent data={this.state.trip} gotData={this.state.gotData}/>
+				</div>
+			);
+		}
+	});
 
-		return (
-			<div>
-				<p>{time}</p>
-				Permissionly
-				<Navbar />
-				<MainContent />
-			</div>
-		);
-	}
-});
+	var Navbar = React.createClass({
+		render: function(){
+			return (
+				<p> Home - Features - About - FAQ </p>
+			);
+		}
+	});
 
+	var MainContent = React.createClass({
+		render: function(){
+			var time;
+			if (this.props.gotData === true) {
+				time= this.props.data.time;
+			}
 
-var Navbar = React.createClass({
-	render: function(){
-		return (<p style={{textAlign: 'right', fontWeight: 'bold'}}>Home - Features - About - FAQ </p>);
-	}
-});
-
-var MainContent = React.createClass({
-	render: function(){
-		return(
-			<div>
-				Main Content
-				<img src="http://www.npr.org/assets/img/2015/01/12/kimani-maruge-2015-hires_wide-bff66d33bef201f36ce3202e67ca7a03ff28207d.jpeg"
-					style={{width:'100%'}}/>
+			return (
+				<div>
+				{time}
+				<img style={{width: '100%'}} src="http://www.npr.org/assets/img/2015/01/12/kimani-maruge-2015-hires_wide-bff66d33bef201f36ce3202e67ca7a03ff28207d.jpeg" />
 				<Menu />
-			</div>
-		);
-	}
-});
-
-var Menu = React.createClass({
-	render: function(){
-		return (
-			<div style={{position: 'absolute', top: '200px', left: '100px'}}>
-				<button>Sign up</button>
-				<button>Trips</button>
-			</div>
-		);
-	}
-});
+				</div>
+			);
+		}
+	});
 
 
-ReactDOM.render(<App />, document.getElementById('content'));
+	var Menu = React.createClass({
+		render: function(){
+			return (
+				<div style={{position: 'absolute', top:'200px', left: '100px'}}>
+					<button>Sign In</button>
+					<button>Dahboard</button>
+				</div>
+			);
+		}
+	});	
 
+	ReactDOM.render(<App />, document.getElementById("content"));
 
-
-
-	ReactDOM.render(<App stuff={STUFF} />, document.getElementById('content'));
 
 </script>
 </html>

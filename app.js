@@ -17,7 +17,7 @@ var TRIP = {
 	origin: 'home',
 	destination: 'school',
 	duration: '2 hours'
-}
+};
 
 server.route([
 	{
@@ -29,16 +29,8 @@ server.route([
 	},
 	{
 		method: 'GET',
-		path: '/test',
-		handler: function(request, reply) {
-			reply('yo');
-		}
-	},
-	{
-		method: 'GET',
 		path: '/api/trip',
 		handler: function(request, reply) {
-			console.log('trip api');
 			reply({
 				trip: TRIP
 			});
@@ -49,3 +41,5 @@ server.route([
 server.start(function(){
 	console.log('server is running at port 8080');
 });
+
+
